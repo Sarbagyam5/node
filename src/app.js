@@ -32,6 +32,7 @@ app.get('/', (req, res) => {
     status: "ok",
     version: "1.0.0",
     port: port,
+    author: "Sarbagya Ghimire"
   })
 });
 
