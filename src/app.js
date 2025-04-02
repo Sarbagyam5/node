@@ -48,3 +48,5 @@ app.use('/api/payment', paymentRoutes)
 app.listen(port, () => {
   console.log(`Connected to port ${port}.....`)
 })
+
+module.exports = app;
