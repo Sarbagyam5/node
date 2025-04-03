@@ -36,15 +36,14 @@ app.get('/', (req, res) => {
   })
 });
 
-app.use('/api/products', upload.array("image", 5), productRoutes);
 
 app.use('/api/auth/', authRoutes);
+app.use('/api/orders', orderRoutes)
+app.use('/api/payment', paymentRoutes)
 
 app.use('/api/users', upload.single("image"), userRoutes);
+app.use('/api/products', upload.array("image", 5), productRoutes);
 
-app.use('/api/orders', orderRoutes)
-
-app.use('/api/payment', paymentRoutes)
 
 app.listen(port, () => {
   console.log(`Connected to port ${port}.....`)

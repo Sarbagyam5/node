@@ -1,7 +1,6 @@
-import { json } from "express";
 import { ROLE_ADMIN } from "../constants/roles.js";
 import Product from "../models/Product.js";
-import uploadfile from "../utils/file.js";
+import uploadFile from "../utils/file.js";
 
 const getAllProducts = async (query) => {
   const sort = JSON.parse(query.sort || "{}");
@@ -42,8 +41,18 @@ const getAllProducts = async (query) => {
 
 
 const createProduct = async (userId, data, images) => {
-  const uploadImage = await uploadfile([images])
-  return await Product.create({ ...data, createdBy: userId, imageUrls: [uploadImage.url] });
+  console.log(images)
+  try {
+    const uploadImages = await uploadFile(images)
+    return await Product.create({
+      ...data,
+      createdBy: userId,
+      imageUrls: uploadImages?.map((images) => images?.url)
+    });
+  } catch (error) {
+    throw new Error(error.message)
+  }
+
 };
 
 

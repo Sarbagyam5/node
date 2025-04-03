@@ -1,28 +1,28 @@
-import { v2 as cloudinary } from "cloudinary"
+import { v2 as cloudinary } from "cloudinary";
 
-async function uploadfile(fileS) {
-  const resultList = []
+const CLOUDINARY_FOLDER = "Nodejs";
 
-  for (const file of fileS) {
+async function uploadFile(files) {
+  const uploadResults = [];
+
+  for (const file of files) {
     const result = await new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader
+      cloudinary.uploader
         .upload_stream(
           {
-            folder: "Nodejs"
+            folder: CLOUDINARY_FOLDER,
           },
           (error, data) => {
-            if (error) return reject(error)
-            resolve(data)
-          });
-      stream.end(file.buffer);
-    }
-    );
-    console.log(result)
+            if (error) return reject(error);
 
-    resultList.push(result)
+            resolve(data);
+          }
+        )
+        .end(file.buffer);
+    });
+    uploadResults.push(result);
   }
-  return resultList
+  return uploadResults;
 }
 
-
-export default uploadfile;
+export default uploadFile;

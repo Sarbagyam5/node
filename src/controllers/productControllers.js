@@ -11,8 +11,16 @@ const getAllProducts = async (req, res) => {
 const createProduct = async (req, res) => {
   const userId = req.user.id;
   const images = req.files;
+  const data = req.body;
+
+  if (!data.name) return res.status(400).send("Product name is required")
+  if (!data.brand) return res.status(400).send("Product brand is required")
+  if (!data.category) return res.status(400).send("Product categroy is required")
+  if (!data.price) return res.status(400).send("Product price is required")
+
+
   try {
-    const products = await productServices.createProduct(userId, req.body, images);
+    const products = await productServices.createProduct(userId, data, images);
     res.json(products);
   } catch (error) {
     res.json(error.message)
